@@ -1,4 +1,5 @@
 {
+    "release-type": "python",
     "packages": {
         ".": {
             "package-name": "my-personal-repo",
@@ -10,3 +11,4 @@
         }
     }
 }
+
