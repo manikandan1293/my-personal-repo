@@ -3,10 +3,8 @@
         ".": {
             "release-type": "python",
             "extra-files": [
-                "__version__.py",
-                "README.md"
+                "__version__.py"
             ]
         }
     }
 }
-
