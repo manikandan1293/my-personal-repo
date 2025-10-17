@@ -1,14 +1,10 @@
 {
-    "release-type": "python",
     "packages": {
         ".": {
-            "package-name": "my-personal-repo",
-            "release-type": "simple",
+            "release-type": "python",
             "extra-files": [
-                "__version__.py",
-                "README.md"
+                "__version__.py"
             ]
         }
     }
 }
-
