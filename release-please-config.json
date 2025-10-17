@@ -1,6 +1,7 @@
 {
     "packages": {
         ".": {
+            "package-name": "my-personal-repo",
             "release-type": "simple",
             "extra-files": [
                 "__version__.py",
@@ -9,5 +10,3 @@
         }
     }
 }
-
-
