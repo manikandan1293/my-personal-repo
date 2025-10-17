@@ -1,10 +1,11 @@
 {
     "packages": {
         ".": {
-            "release-type": "python",
+            "release-type": "simple",
             "extra-files": [
                 "__version__.py"
             ]
         }
     }
 }
+
