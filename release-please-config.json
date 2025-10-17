@@ -3,9 +3,11 @@
         ".": {
             "release-type": "simple",
             "extra-files": [
-                "__version__.py"
+                "__version__.py",
+                "README.md"
             ]
         }
     }
 }
+
 
