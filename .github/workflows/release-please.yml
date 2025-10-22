@@ -1,8 +1,16 @@
 name: Release Automation
 on:
+  # 1️⃣ Automatic release PRs + releases on push to main
   push:
     branches:
       - main
+
+  # 2️⃣ Manual trigger (you can enter version manually)
+  workflow_dispatch:
+    inputs:
+      version:
+        description: "Version to release (optional, e.g. 1.2.0)"
+        required: false
 
 permissions:
   contents: write
@@ -15,3 +23,5 @@ jobs:
         uses: googleapis/release-please-action@c2a5a2bd6a758a0937f1ddb1e8950609867ed15c  #v4.3.0
         with:
           token: ${{ secrets.GITHUB_TOKEN }}
+          # 👇 Only set release-as if manually triggered with a version
+          release-as: ${{ github.event.inputs.version }}
