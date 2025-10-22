@@ -29,7 +29,8 @@ jobs:
       - name: Checkout main branch
         uses: actions/checkout@v4
         with:
-          ref: main 
+          ref: main
+          fetch-depth: 0
           # Use a PAT or GITHUB_TOKEN with 'contents: write' scope for protected branches
           token: ${{ secrets.GITHUB_TOKEN }} 
           
