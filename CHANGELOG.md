@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.2.0](https://github.com/manikandan1293/my-personal-repo/compare/v0.1.0...v0.2.0) (2025-10-22)
+
+
+### Features
+
+* Add manual trigger for release version input ([ccf7242](https://github.com/manikandan1293/my-personal-repo/commit/ccf72429d8d9bf6f1c7238565fd111068e2d9b50))
+
 ## [0.1.0](https://github.com/manikandan1293/my-personal-repo/compare/v0.0.1...v0.1.0) (2025-10-17)
 
 
