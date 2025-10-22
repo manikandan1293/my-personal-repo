@@ -19,6 +19,14 @@ jobs:
   release:
     runs-on: ubuntu-latest
     steps:
+      - name: Manual release (specific version)
+        if: ${{ github.event.inputs.version != '' }}
+        run: |
+          echo "Manual release for version ${{ github.event.inputs.version }}"
+          release-please release \
+            --release-type python \
+            --release-as ${{ github.event.inputs.version }} \
+            --token ${{ secrets.GITHUB_TOKEN }}
       - name: Run Release Automation
         uses: googleapis/release-please-action@c2a5a2bd6a758a0937f1ddb1e8950609867ed15c  #v4.3.0
         with:
