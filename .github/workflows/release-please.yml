@@ -1,35 +1,74 @@
-name: Release Automation
+name: Release Automation (Manual Override Optional)
+
 on:
-  # 1️⃣ Automatic release PRs + releases on push to main
+  # 1. Standard automation trigger
   push:
     branches:
       - main
-
-  # 2️⃣ Manual trigger (you can enter version manually)
+  # 2. Manual optional override trigger
   workflow_dispatch:
     inputs:
-      version:
-        description: "Version to release (optional, e.g. 1.2.0)"
+      release_version:
+        description: 'Optional: Specific version to force (e.g., 2.5.0)'
         required: false
+        type: string
 
-permissions:
-  contents: write
-  pull-requests: write
 jobs:
-  release:
+  # ----------------------------------------------------------------------
+  # JOB 1: Force Release-As Commit (Runs ONLY on manual trigger with input)
+  # ----------------------------------------------------------------------
+  force_version_commit:
+    name: 'Force Custom Version Commit'
     runs-on: ubuntu-latest
+    # Condition: Run only if 'release_version' input is provided
+    if: ${{ github.event_name == 'workflow_dispatch' && github.event.inputs.release_version != '' }}
+    
     steps:
-      - name: Manual release (specific version)
-        if: ${{ github.event.inputs.version != '' }}
-        run: |
-          echo "Manual release for version ${{ github.event.inputs.version }}"
-          release-please release \
-            --release-type python \
-            --release-as ${{ github.event.inputs.version }} \
-            --token ${{ secrets.GITHUB_TOKEN }}
-      - name: Run Release Automation
-        uses: googleapis/release-please-action@c2a5a2bd6a758a0937f1ddb1e8950609867ed15c  #v4.3.0
+      - name: Checkout main branch
+        uses: actions/checkout@v4
         with:
+          ref: main 
+          # Use a PAT or GITHUB_TOKEN with 'contents: write' scope for protected branches
+          token: ${{ secrets.GITHUB_TOKEN }} 
+          
+      - name: Configure Git
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          
+      - name: Create empty commit with Release-As tag
+        run: |
+          VERSION=${{ github.event.inputs.release_version }}
+          echo "Force-releasing version: $VERSION"
+          # This commit will trigger the 'release-please' job (Job 2) on the subsequent push
+          git commit --allow-empty -m "chore: Manually trigger forced release $VERSION" -m "Release-As: $VERSION"
+          
+          # Pushing the commit triggers the PUSH event, which then runs Job 2
+          git push origin main
+          
+  # ----------------------------------------------------------------------
+  # JOB 2: Automated Release-Please
+  # ----------------------------------------------------------------------
+  release_please:
+    name: 'Automated Release-Please'
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+      pull-requests: write
+
+    # Condition: 
+    # 1. Run on standard PUSH to main (conventional commits determine version)
+    # 2. OR Run on WORKFLOW_DISPATCH if the 'release_version' was NOT provided (i.e., just a standard run)
+    # 3. OR (Crucially) Run on the PUSH event created by Job 1's commit!
+    if: ${{ github.event_name == 'push' || (github.event_name == 'workflow_dispatch' && github.event.inputs.release_version == '') }}
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Run Release Please
+        uses: google-github-actions/release-please-action@v4
+        with:
+          # release-please automatically detects the 'Release-As' tag from Job 1
+          # or uses Conventional Commits if Job 1 didn't run.
           token: ${{ secrets.GITHUB_TOKEN }}
-          # 👇 Only set release-as if manually triggered with a version
-          release-as: ${{ github.event.inputs.version }}
+          target-branch: 'main'
