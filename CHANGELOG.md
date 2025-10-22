@@ -1,5 +1,17 @@
 # Changelog
 
+## [0.3.0](https://github.com/manikandan1293/my-personal-repo/compare/v0.2.0...v0.3.0) (2025-10-22)
+
+
+### Features
+
+* Enhance release workflow with manual version override ([3342c69](https://github.com/manikandan1293/my-personal-repo/commit/3342c694b3061df90ff8e606ecbdf2646559ee5b))
+
+
+### Bug Fixes
+
+* Add permissions for contents and pull-requests ([3da900a](https://github.com/manikandan1293/my-personal-repo/commit/3da900a78b22477e8677d17ecbfb01ec1e41d4e7))
+
 ## [0.2.0](https://github.com/manikandan1293/my-personal-repo/compare/v0.1.0...v0.2.0) (2025-10-22)
 
 
