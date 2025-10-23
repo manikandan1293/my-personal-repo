@@ -39,7 +39,7 @@ jobs:
         run: |
           VERSION=${{ github.event.inputs.release_version }}
           echo "Force-releasing version: $VERSION"
-          if [ -n "$VERSION"]; then
+          if [ -n "$VERSION" ]; then
             # This commit will trigger the 'release-please' job (Job 2) on the subsequent push
             git commit --allow-empty -m "chore: Manually trigger forced release $VERSION" -m "Release-As: $VERSION"
           else
