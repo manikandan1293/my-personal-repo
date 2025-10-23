@@ -29,11 +29,7 @@ jobs:
       - name: Checkout main branch
         uses: actions/checkout@v4
         with:
-          ref: main
           fetch-depth: 0
-          # Use a PAT or GITHUB_TOKEN with 'contents: write' scope for protected branches
-          token: ${{ secrets.GITHUB_TOKEN }} 
-          
       - name: Configure Git
         run: |
           git config user.name "github-actions[bot]"
@@ -42,6 +38,9 @@ jobs:
       - name: Create empty commit with Release-As tag
         run: |
           VERSION=${{ github.event.inputs.release_version }}
+          echo "Creating release commit for version: $VERSION"
+          git checkout main
+          git pull origin main
           echo "Force-releasing version: $VERSION"
           # This commit will trigger the 'release-please' job (Job 2) on the subsequent push
           git commit --allow-empty -m "chore: Manually trigger forced release $VERSION" -m "Release-As: $VERSION"
