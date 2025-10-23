@@ -45,6 +45,7 @@ jobs:
           else
             echo "Triggering without version"
             git commit --allow-empty -m "chore: Manually trigger forced release"
+          fi
           # Pushing the commit triggers the PUSH event, which then runs Job 2
           git push origin main
           
