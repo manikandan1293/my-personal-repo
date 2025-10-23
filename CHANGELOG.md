@@ -1,5 +1,15 @@
 # Changelog
 
+## [1.0.2](https://github.com/manikandan1293/my-personal-repo/compare/v0.3.0...v1.0.2) (2025-10-23)
+
+
+### Miscellaneous Chores
+
+* Manually trigger forced release 1.0.0 ([fe71c3a](https://github.com/manikandan1293/my-personal-repo/commit/fe71c3adf07b3a720976b37a035849df15295076))
+* Manually trigger forced release 1.0.0 ([4107b66](https://github.com/manikandan1293/my-personal-repo/commit/4107b66bfb05a82300e3b08cdc0720c868b494d6))
+* Manually trigger forced release 1.0.0 ([66f11d9](https://github.com/manikandan1293/my-personal-repo/commit/66f11d9c31be51508a6ad9120a9d3acc4bd4ddcb))
+* Manually trigger forced release 1.0.2 ([6b02305](https://github.com/manikandan1293/my-personal-repo/commit/6b02305319ac6bdc16846b54d99adf08f5284800))
+
 ## [0.3.0](https://github.com/manikandan1293/my-personal-repo/compare/v0.2.0...v0.3.0) (2025-10-22)
 
 
