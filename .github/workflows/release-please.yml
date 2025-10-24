@@ -117,6 +117,9 @@ jobs:
           target-branch: 'main'
           release-type: python
 
+      - name: Wait 30s before checking PR merge
+        run: sleep 30
+
       - name: Auto merge release PR (if created)
         if: ${{ steps.release.outputs.pr_number }}
         run: |
