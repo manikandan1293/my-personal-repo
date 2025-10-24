@@ -1,28 +1,32 @@
 name: Release Automation (Manual Override Optional)
 
 on:
-  # 1. Standard automation trigger
+  # 1️⃣ Automatic trigger on push to main
   push:
     branches:
       - main
-  # 2. Manual optional override trigger
+
+  # 2️⃣ Manual trigger (can specify version)
   workflow_dispatch:
     inputs:
       release_version:
         description: 'Optional: Specific version to force (e.g., 2.5.0)'
         required: false
         type: string
+
 permissions:
   contents: write
   pull-requests: write
+
 jobs:
   # ----------------------------------------------------------------------
-  # JOB 1: Force Release-As Commit (Runs ONLY on manual trigger with input)
+  # JOB 1: Force Release-As Commit (Manual Trigger Only)
   # ----------------------------------------------------------------------
   force_version_commit:
     name: 'Force Custom Version Commit'
     if: github.event_name == 'workflow_dispatch' && github.ref == 'refs/heads/main'
     runs-on: ubuntu-latest
+
     steps:
       - name: Checkout main branch
         uses: actions/checkout@v4
@@ -30,27 +34,71 @@ jobs:
           ref: main
           fetch-depth: 0
           token: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Validate version input (format + compare latest)
+        id: validate
+        run: |
+          VERSION=${{ github.event.inputs.release_version }}
+
+          if [ -z "$VERSION" ]; then
+            echo "No manual version provided — skipping validation."
+            echo "skip_validation=true" >> $GITHUB_OUTPUT
+            exit 0
+          fi
+
+          echo "🧩 Validating provided version: $VERSION"
+
+          # Validate semantic version format (x.y.z)
+          if ! [[ "$VERSION" =~ ^[0-9]+\.[0-9]+\.[0-9]+$ ]]; then
+            echo "❌ Invalid version format. Use semantic versioning like 1.2.3"
+            exit 1
+          fi
+
+          # Fetch latest GitHub release tag
+          LATEST=$(gh release list --limit 1 --json tagName --jq '.[0].tagName' 2>/dev/null || echo "")
+          if [ -z "$LATEST" ]; then
+            echo "No previous releases found — proceeding with version $VERSION."
+          else
+            echo "Latest release found: $LATEST"
+            # Remove leading 'v' if exists
+            LATEST=${LATEST#v}
+
+            # Compare versions (convert to sortable numbers)
+            verlte() { [ "$1" = "$2" ] && return 0 || [  "$(printf '%s\n' "$1" "$2" | sort -V | head -n1)" = "$1" ]; }
+            vergte() { [ "$1" = "$2" ] && return 0 || [  "$(printf '%s\n' "$1" "$2" | sort -V | tail -n1)" = "$1" ]; }
+
+            if vergte "$LATEST" "$VERSION"; then
+              echo "❌ Provided version ($VERSION) is not greater than the latest release ($LATEST)."
+              exit 1
+            fi
+          fi
+
+          echo "✅ Version validation passed!"
+          echo "skip_validation=false" >> $GITHUB_OUTPUT
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
       - name: Configure Git
+        if: steps.validate.outputs.skip_validation == 'false' || steps.validate.outputs.skip_validation == ''
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "github-actions[bot]@users.noreply.github.com"
-          
+
       - name: Create empty commit with Release-As tag
+        if: steps.validate.outputs.skip_validation == 'false' || steps.validate.outputs.skip_validation == ''
         run: |
           VERSION=${{ github.event.inputs.release_version }}
-          echo "Force-releasing version: $VERSION"
           if [ -n "$VERSION" ]; then
-            # This commit will trigger the 'release-please' job (Job 2) on the subsequent push
-            git commit --allow-empty -m "chore: Manually trigger forced release $VERSION" -m "Release-As: $VERSION"
+            echo "Force-releasing version: $VERSION"
+            git commit --allow-empty -m "chore: manually trigger release $VERSION" -m "Release-As: $VERSION"
           else
             echo "Triggering without version"
-            git commit --allow-empty -m "chore: Manually trigger forced release"
+            git commit --allow-empty -m "chore: manually trigger release"
           fi
-          # Pushing the commit triggers the PUSH event, which then runs Job 2
           git push origin main
-          
+
   # ----------------------------------------------------------------------
-  # JOB 2: Automated Release-Please
+  # JOB 2: Automated Release Please
   # ----------------------------------------------------------------------
   release:
     name: 'Automated Release-Please'
@@ -59,11 +107,20 @@ jobs:
     if: |
       always() &&
       (needs.force_version_commit.result == 'success' || needs.force_version_commit.result == 'skipped')
+
     steps:
       - name: Run Release Please
+        id: release
         uses: googleapis/release-please-action@v4
         with:
-          # release-please automatically detects the 'Release-As' tag from Job 1
-          # or uses Conventional Commits if Job 1 didn't run.
           token: ${{ secrets.GITHUB_TOKEN }}
           target-branch: 'main'
+          release-type: python
+
+      - name: Auto merge release PR (if created)
+        if: ${{ steps.release.outputs.pr_number }}
+        run: |
+          echo "Auto-merging release PR #${{ steps.release.outputs.pr_number }}"
+          gh pr merge ${{ steps.release.outputs.pr_number }} --squash --admin --auto
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
