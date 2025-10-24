@@ -1,5 +1,20 @@
 # Changelog
 
+## [0.4.1](https://github.com/manikandan1293/my-personal-repo/compare/v0.4.0...v0.4.1) (2025-10-24)
+
+
+### Bug Fixes
+
+* Add wait step before checking PR merge ([a3dd999](https://github.com/manikandan1293/my-personal-repo/commit/a3dd9990fa53f67f4ebfb7f7c44358a5d3f629c9))
+* Enhance release workflow with version validation ([82aadbf](https://github.com/manikandan1293/my-personal-repo/commit/82aadbfe3c1786def647dbf319203c9a5dd537b3))
+* Refactor release-please workflow for PR handling ([28e7ea7](https://github.com/manikandan1293/my-personal-repo/commit/28e7ea7e7c1cc98655868a99f1771c3283480688))
+* Update release-please.yml ([72945ae](https://github.com/manikandan1293/my-personal-repo/commit/72945ae423f3e3d10e532d2cb72ca51ee25342b3))
+
+
+### Miscellaneous Chores
+
+* manually trigger release 0.4.1 ([f9e7391](https://github.com/manikandan1293/my-personal-repo/commit/f9e739128e7d541c6ee48aa39bdee75a0f7f816c))
+
 ## [0.4.0](https://github.com/manikandan1293/my-personal-repo/compare/v0.3.0...v0.4.0) (2025-10-23)
 
 
