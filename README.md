@@ -1,3 +1,3 @@
 # my-personal-repo
 
-**Version: 0.0.1**
+**Version: v0.0.1**
