@@ -118,9 +118,12 @@ jobs:
           target-branch: main
           release-type: python
 
-      - name: Enable auto-merge (merge when checks pass)
+      - name: Get PR Number and Enable Auto-merge
         if: steps.release.outputs.pr # Check if a PR object exists
+        # Set an environment variable from the parsed JSON
+        env:
+          PR_NUMBER: ${{ fromJSON(steps.release.outputs.pr).number }}
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
-          PR_NUMBER=${{ fromJSON(steps.release.outputs.pr).number }}
-          echo "Found PR #$PR_NUMBER"
+          echo "Release PR number is $PR_NUMBER"
           gh pr merge --auto $PR_NUMBER
