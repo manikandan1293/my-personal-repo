@@ -121,8 +121,6 @@ jobs:
       # Try to extract PR number directly
       - name: Capture PR Number
         id: find_pr
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
-          PR_NUMBER=$(echo "${{ steps.release.outputs.pr }}" | jq -r '.number')
+          PR_NUMBER=${{ fromJSON(steps.release.outputs.pr).number }}
           echo "Found PR #$PR_NUMBER"
