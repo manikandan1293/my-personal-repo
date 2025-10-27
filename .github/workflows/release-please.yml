@@ -124,8 +124,8 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
-          echo "Release Please output: ${{ steps.release.outputs.pr }}"
-          pr_number="${{ steps.release.outputs.pr }}"
+          echo "Release Please output: ${{ steps.release.outputs.pr_number }}"
+          pr_number="${{ steps.release.outputs.pr_number }}"
           if [ -z "$pr_number" ]; then
             echo "No PR found from output, fetching manually..."
             pr_number=$(gh pr list --state open --search "Release Please" --json number,title | jq -r '.[] | select(.title | contains("chore(main): release")) | .number' | head -n 1)          fi
@@ -149,4 +149,3 @@ jobs:
         run: |
           echo "Merging PR #$PR_NUMBER"
           gh pr merge $PR_NUMBER --merge --auto --repo ${{ github.repository }}
-
