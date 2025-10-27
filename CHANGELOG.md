@@ -1,5 +1,32 @@
 # Changelog
 
+## [0.4.1](https://github.com/manikandan1293/my-personal-repo/compare/v0.4.0...v0.4.1) (2025-10-27)
+
+
+### Bug Fixes
+
+* Add wait step before checking PR merge ([a3dd999](https://github.com/manikandan1293/my-personal-repo/commit/a3dd9990fa53f67f4ebfb7f7c44358a5d3f629c9))
+* Auto merge ([e9f81c6](https://github.com/manikandan1293/my-personal-repo/commit/e9f81c6a0d9a7bdc844e89047a90daf29d10de67))
+* Auto merge 1 ([f44dc7e](https://github.com/manikandan1293/my-personal-repo/commit/f44dc7ebfc5f7394c7363e715eaf1bcad7fdf106))
+* Auto merge 10 ([1ad33d4](https://github.com/manikandan1293/my-personal-repo/commit/1ad33d4caf3d4e6a4bd6a0980cf97817ff9cd715))
+* Auto merge 11 ([01210ac](https://github.com/manikandan1293/my-personal-repo/commit/01210ac1ab2519f20cdd601f64f161316b074a84))
+* Auto merge 2 ([9e1616d](https://github.com/manikandan1293/my-personal-repo/commit/9e1616d0c587a446863dafb9dbc236c448e065a2))
+* Auto merge 3 ([1463353](https://github.com/manikandan1293/my-personal-repo/commit/14633533b0f0438571f393bffc81cb240f65cb73))
+* Auto merge 4 ([7d9ce56](https://github.com/manikandan1293/my-personal-repo/commit/7d9ce5608c9109346061db2c4660709ffab3e962))
+* Auto merge 5 ([af78930](https://github.com/manikandan1293/my-personal-repo/commit/af789309561cd76727a4967f34f7d69e6e6b884a))
+* Auto merge 6 ([2a5ca0d](https://github.com/manikandan1293/my-personal-repo/commit/2a5ca0df47537927dc6cbe7f25a73c9d3454b019))
+* Auto merge 7 ([0c0f4d5](https://github.com/manikandan1293/my-personal-repo/commit/0c0f4d57081c7ccf795ccea04b6882bf2714a515))
+* Auto merge 8 ([83ad9ab](https://github.com/manikandan1293/my-personal-repo/commit/83ad9ab7ec749bf072230fa6597b0811273ac112))
+* Auto merge 9 ([5cb4fc5](https://github.com/manikandan1293/my-personal-repo/commit/5cb4fc58fa816421cc5d9818e99a3b18f3c19d24))
+* Enhance release workflow with version validation ([82aadbf](https://github.com/manikandan1293/my-personal-repo/commit/82aadbfe3c1786def647dbf319203c9a5dd537b3))
+* Refactor release-please workflow for PR handling ([28e7ea7](https://github.com/manikandan1293/my-personal-repo/commit/28e7ea7e7c1cc98655868a99f1771c3283480688))
+* Update release-please.yml ([72945ae](https://github.com/manikandan1293/my-personal-repo/commit/72945ae423f3e3d10e532d2cb72ca51ee25342b3))
+
+
+### Miscellaneous Chores
+
+* manually trigger release 0.4.1 ([f9e7391](https://github.com/manikandan1293/my-personal-repo/commit/f9e739128e7d541c6ee48aa39bdee75a0f7f816c))
+
 ## [0.4.0](https://github.com/manikandan1293/my-personal-repo/compare/v0.3.0...v0.4.0) (2025-10-23)
 
 
