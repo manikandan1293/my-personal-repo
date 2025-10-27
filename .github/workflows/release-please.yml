@@ -117,10 +117,10 @@ jobs:
           token: ${{ secrets.GITHUB_TOKEN }}
           target-branch: main
           release-type: python
-  
-      # Try to extract PR number directly
-      - name: Capture PR Number
-        id: find_pr
+
+      - name: Enable auto-merge (merge when checks pass)
+        if: steps.release.outputs.pr # Check if a PR object exists
         run: |
           PR_NUMBER=${{ fromJSON(steps.release.outputs.pr).number }}
           echo "Found PR #$PR_NUMBER"
+          gh pr merge --auto $PR_NUMBER
