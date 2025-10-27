@@ -118,6 +118,11 @@ jobs:
           target-branch: main
           release-type: python
 
+      - name: Checkout Repository
+        if: steps.release.outputs.pr
+        # Use the official action to clone the repo, making it a Git repository
+        uses: actions/checkout@v4
+
       - name: Get PR Number and Enable Auto-merge
         if: steps.release.outputs.pr # Check if a PR object exists
         # Set an environment variable from the parsed JSON
