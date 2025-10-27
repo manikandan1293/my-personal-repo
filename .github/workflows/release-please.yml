@@ -124,6 +124,5 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
-          echo "Release Please output: ${{ steps.release.outputs.pr }}"
-          PR_NUMBER=$(echo "$RELEASE_PR_OUTPUT" | jq -r '.number')
+          PR_NUMBER=$(echo "${{ steps.release.outputs.pr }}" | jq -r '.number')
           echo "Found PR #$PR_NUMBER"
