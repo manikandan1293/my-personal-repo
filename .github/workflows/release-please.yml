@@ -131,4 +131,4 @@ jobs:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
           echo "Release PR number is $PR_NUMBER"
-          gh pr merge --auto $PR_NUMBER
+          gh pr merge --auto --squash $PR_NUMBER
