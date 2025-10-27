@@ -128,7 +128,8 @@ jobs:
           pr_number="${{ steps.release.outputs.pr_number }}"
           if [ -z "$pr_number" ]; then
             echo "No PR found from output, fetching manually..."
-            pr_number=$(gh pr list --state open --search "Release Please" --json number,title | jq -r '.[] | select(.title | contains("chore(main): release")) | .number' | head -n 1)          fi
+            pr_number=$(gh pr list --state open --search "Release Please" --json number,title | jq -r '.[] | select(.title | contains("chore(main): release")) | .number' | head -n 1)
+          fi
           if [ -z "$pr_number" ]; then
             echo "❌ Could not determine PR number"
             exit 1
